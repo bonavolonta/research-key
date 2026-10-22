@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#13243c">
+  <meta name="description" content="Generatore locale di codici pseudonimi per ricerche, con tessera digitale PDF/PNG e QR di recupero.">
+  <title>ResearchKey — Identificativo per la ricerca</title>
+  <style>
+    :root{color-scheme:light;--ink:#14263b;--muted:#586a7e;--line:#dce4ec;--bg:#f4f7fa;--blue:#164c7d;--teal:#076b68;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+    .shell{max-width:1060px;margin:auto;padding:28px 22px 60px}.mast{display:flex;align-items:center;gap:16px;margin:0 0 26px}
+    .logo{width:52px;height:52px;background:var(--ink);border-radius:14px;display:grid;place-items:center;font-size:21px;font-weight:750;letter-spacing:-1px;color:#fff}
+    h1{font-size:26px;letter-spacing:-.6px;line-height:1.2;margin:0}h2{font-size:22px;line-height:1.25;letter-spacing:-.3px;margin:0 0 10px}
+    p{margin:8px 0;color:var(--muted)}.subtitle{font-size:15px;margin:3px 0 0}.columns{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:start}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:0 6px 26px rgba(25,46,69,.04)}
+    .eyebrow{font-size:12px;font-weight:760;letter-spacing:.11em;text-transform:uppercase;color:var(--teal);margin:0 0 6px}
+    .study{display:inline-block;font:650 13px/1.4 ui-monospace,Consolas,monospace;background:#e9f3f3;color:#155b58;padding:6px 10px;border-radius:7px;word-break:break-all}
+    .identity{margin-top:18px;padding:24px;border:1px solid #d6e1e8;border-radius:13px;background:#f8fbfd;text-align:center}
+    .identity-label{font-size:12px;color:#64778a;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+    .identity-code{font-weight:760;letter-spacing:.075em;font-size:clamp(21px,4vw,34px);font-variant-numeric:tabular-nums;margin:8px 0;color:#163b5b}
+    .qr-anchor{display:inline-flex;padding:10px;border:1px solid #d9e2ea;border-radius:12px;background:#fff;text-decoration:none;margin-top:8px}
+    .qr-anchor:focus-visible{outline:3px solid var(--teal)}#qrCanvas{width:214px;height:214px;image-rendering:pixelated;display:block}
+    .hint{font-size:12px;line-height:1.5;max-width:415px;margin:10px auto 0}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+    button,.btn-link{appearance:none;border:1px solid #cbd7e0;border-radius:9px;padding:11px 15px;min-height:44px;background:#fff;color:var(--ink);font:650 14px/1.25 system-ui,sans-serif;cursor:pointer;text-decoration:none;text-align:center}
+    button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button:focus-visible,input:focus-visible,.btn-link:focus-visible{outline:3px solid #398eaf;outline-offset:2px}
+    button:hover,.btn-link:hover{filter:brightness(.97)}button.primary:hover{filter:brightness(1.08)}.muted{font-size:13px}.hidden{display:none!important}
+    input{padding:12px;font-size:16px;border:1px solid #b9c8d7;border-radius:9px;width:100%;font-family:ui-monospace,Consolas,monospace;text-transform:uppercase;letter-spacing:.04em}
+    label{display:block;margin:0 0 6px;font-weight:650;font-size:14px}.restore{border-top:1px solid var(--line);margin-top:24px;padding-top:20px}
+    .fieldrow{display:flex;gap:8px}.fieldrow button{flex:none}.alert{padding:12px 15px;border-radius:9px;background:#fff6e8;border:1px solid #edcb98;color:#76531b;margin:14px 0;font-size:13px}
+    .note{background:#f0f5f8;border-radius:11px;padding:15px 17px;color:#40566d;font-size:13px;margin:22px 0 0}
+    .step{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}.step:last-child{border-bottom:0}
+    .num{display:flex;justify-content:center;align-items:center;flex:0 0 27px;height:27px;border-radius:50%;background:#e9f2f6;color:var(--blue);font-weight:760}
+    .help{padding-top:25px;color:#637589;font-size:13px}code{font-family:ui-monospace,Consolas,monospace;color:#263c4f}
+    .status{margin-top:12px;min-height:19px;font-size:13px;color:var(--teal)}a{color:var(--blue)}
+    @media(max-width:730px){.columns{grid-template-columns:1fr}.panel{padding:21px}.shell{padding:18px 13px 36px}.mast{margin-bottom:20px}.fieldrow{flex-direction:column} .actions button{flex:1 1 calc(50% - 8px)}}
+    @media print{body{background:#fff}.shell{padding:0;max-width:none}.mast,.side,.actions,.restore,.note,.hint,.status,.prelude,.help,#makeArea{display:none!important}.columns{display:block}.panel{border:0;box-shadow:none;padding:0}.identity{border:1px solid #888;background:#fff;margin:0 auto;max-width:690px}h2,.eyebrow{display:none}.study{background:#fff;border:1px solid #ccc}a.qr-anchor{border:0}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="mast"><div class="logo" aria-hidden="true">RK</div><div><h1>ResearchKey</h1><p class="subtitle">Identificativi pseudonimi per la ricerca</p></div></header>
+  <div class="columns">
+    <section class="panel" aria-label="Codice di ricerca">
+      <p class="eyebrow">Identificativo personale</p>
+      <h2>La tua chiave di ricerca</h2>
+      <p class="prelude">Usa sempre lo stesso codice nelle rilevazioni di questo studio. Non inserire nome, matricola o indirizzo email.</p>
+      <div>Studio: <span id="studyLabel" class="study"></span></div>
+      <div id="makeArea" class="actions"><button class="primary" id="makeButton" type="button">Genera il mio codice</button></div>
+      <div id="idArea" class="identity hidden">
+        <div class="identity-label">Codice da conservare</div>
+        <div class="identity-code" id="codeText" aria-live="polite"></div>
+        <a class="qr-anchor" href="#" id="qrLink" title="Apri il collegamento di recupero" aria-label="Apri il link per recuperare il codice"><canvas id="qrCanvas" width="320" height="320" aria-label="QR code di recupero"></canvas></a>
+        <p class="hint">Inquadra il QR da un altro dispositivo oppure apri il collegamento. Il link recupera questo stesso codice.</p>
+      </div>
+      <div id="downloadActions" class="actions hidden">
+        <button id="copyButton" type="button">Copia codice</button>
+        <button id="copyUrlButton" type="button">Copia link</button>
+        <button id="pngButton" class="primary" type="button">Scarica PNG</button>
+        <button id="pdfButton" class="primary" type="button">Scarica PDF</button>
+      </div>
+      <div id="conflictArea" class="alert hidden" role="alert">
+        Sul dispositivo è già presente un codice diverso per questo studio. Vuoi sostituirlo con quello presente nel link di recupero?
+        <div class="actions"><button id="acceptRecovery" type="button">Ripristina dal link</button><button id="rejectRecovery" type="button">Mantieni il codice esistente</button></div>
+      </div>
+      <div class="restore" id="restoreArea">
+        <label for="manualCode">Hai già un codice? Recuperalo qui</label>
+        <div class="fieldrow"><input id="manualCode" type="text" maxlength="20" autocomplete="off" placeholder="XXXX-XXXX-XXXX" aria-describedby="recoverHelp"><button id="restoreButton" type="button">Ripristina codice</button></div>
+        <p id="recoverHelp" class="muted">Usa il codice che avevi salvato. Non generarne un secondo per lo stesso studio.</p>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <div class="note">Il codice è generato e conservato nel browser. Nessun codice viene trasmesso a un database dall'applicazione. Il QR contiene un link con il codice: conserva il file e non condividerlo con altre persone.</div>
+    </section>
+    <aside class="panel side" aria-label="Istruzioni">
+      <p class="eyebrow">Come funziona</p><h2>Una volta sola, poi lo riutilizzi</h2>
+      <div class="step"><div class="num">1</div><div>Genera il codice una sola volta, all'inizio dello studio.</div></div>
+      <div class="step"><div class="num">2</div><div>Scarica la tessera in <b>PDF</b> o <b>PNG</b> e conservala.</div></div>
+      <div class="step"><div class="num">3</div><div>Nei moduli di ricerca, inserisci sempre lo stesso codice.</div></div>
+      <div class="step"><div class="num">4</div><div>Se cambi dispositivo, apri il link contenuto nel QR o digita il codice salvato.</div></div>
+      <p class="muted" style="margin-top:22px"><b>Nota:</b> il codice collega più rilevazioni della medesima ricerca. È un identificativo pseudonimo, non una garanzia assoluta di anonimato.</p>
+      <p class="muted"><b>Ricercatori:</b> per utilizzare l'app in uno studio diverso, condividete il collegamento con il parametro <code>?studio=nome-studio</code>.</p>
+    </aside>
+  </div>
+  <footer class="help">ResearchKey · applicazione statica · generazione locale · nessun account richiesto</footer>
+</main>
+<script src="vendor/qr-bundle.js"></script>
+<script>
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const params = new URLSearchParams(window.location.search);
+  const requestedStudy = (params.get('studio') || params.get('study') || 'studio-generale').trim();
+  const study = /^[a-zA-Z0-9_-]{1,48}$/.test(requestedStudy) ? requestedStudy.toLowerCase() : 'studio-generale';
+  const storageKey = 'researchkey:v1:' + study;
+  let code = '';
+  let pendingRecovery = '';
+  const legacyFragment = new URLSearchParams(location.hash.slice(1));
+  const incomingCode = normalize(legacyFragment.get('id') || '');
+  $('studyLabel').textContent = study;
+  function normalize(str){ const raw=String(str).toUpperCase().replace(/[-\s]/g,''); return /^[A-HJ-NP-Z2-9]{12}$/.test(raw) ? raw.match(/.{4}/g).join('-') : ''; }
+  function stored(){try{return normalize(localStorage.getItem(storageKey) || '');}catch(_){return '';}}
+  function persist(v){try{localStorage.setItem(storageKey,v);return true;}catch(_){return false;}}
+  function say(v){$('status').textContent=v;}
+  function newCode(){ if(!window.crypto || !crypto.getRandomValues){say('Generazione sicura non disponibile in questo browser.');return;}
+    const b=new Uint8Array(12);crypto.getRandomValues(b);
+    const raw=Array.from(b,x=>ALPHABET[x&31]).join('');assign(raw.match(/.{4}/g).join('-'));
+  }
+  function assign(value){code=value;const saved=persist(value);render();say(saved?'Codice conservato in questo browser. Scarica anche una tessera di recupero.':'Codice creato. Il browser non consente il salvataggio locale: scarica subito la tessera.');}
+  function clearHash(){if(location.hash)history.replaceState(null,'',location.pathname+location.search);}
+  function recoveryLink(){return location.origin + location.pathname + '?studio=' + encodeURIComponent(study) + '#id=' + code.replace(/-/g,'');}
+  function getQr(){const qr=new ResearchQR.QRCode(0,ResearchQR.levels.M);qr.addData(recoveryLink());qr.make();return qr;}
+  function qrToCanvas(canvas, x, y, size, qr){const ctx=canvas.getContext('2d');const count=qr.getModuleCount();const quiet=4;const cell=size/(count+quiet*2);ctx.fillStyle='#ffffff';ctx.fillRect(x,y,size,size);ctx.fillStyle='#14263b'; for(let r=0;r<count;r++)for(let c=0;c<count;c++)if(qr.isDark(r,c)){ const left=x+(c+quiet)*cell,top=y+(r+quiet)*cell;ctx.fillRect(Math.floor(left),Math.floor(top),Math.ceil(cell)+.1,Math.ceil(cell)+.1);}}
+  function render(){
+    $('makeArea').classList.toggle('hidden',!!code);$('idArea').classList.toggle('hidden',!code);$('downloadActions').classList.toggle('hidden',!code);
+    if(!code)return;$('codeText').textContent=code;
+    const link=recoveryLink();$('qrLink').href=link;
+    const c=$('qrCanvas');c.width=360;c.height=360;qrToCanvas(c,0,0,360,getQr());
+  }
+  function drawCard(){
+    const canvas=document.createElement('canvas');canvas.width=1400;canvas.height=820;const ctx=canvas.getContext('2d');
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,1400,820);ctx.fillStyle='#14263b';ctx.fillRect(0,0,1400,170);
+    ctx.fillStyle='#fff';ctx.font='bold 50px system-ui,sans-serif';ctx.fillText('ResearchKey',72,101);
+    ctx.font='24px system-ui,sans-serif';ctx.fillStyle='#d5e3ec';ctx.fillText('Identificativo pseudonimo per la ricerca',75,141);
+    ctx.fillStyle='#0d6b68';ctx.font='bold 25px system-ui,sans-serif';ctx.fillText('STUDIO',76,245);
+    ctx.fillStyle='#273d50';ctx.font='30px system-ui,sans-serif';ctx.fillText(study,76,295,740);
+    ctx.fillStyle='#6a7c8d';ctx.font='bold 24px system-ui,sans-serif';ctx.fillText('CODICE PERSONALE',76,384);
+    ctx.fillStyle='#122e4b';ctx.font='bold 68px system-ui,monospace';ctx.fillText(code,70,474,810);
+    ctx.fillStyle='#61768a';ctx.font='24px system-ui,sans-serif';ctx.fillText('Conserva questa tessera per le rilevazioni successive.',76,571);
+    ctx.fillText('Usa sempre lo stesso identificativo per questo studio.',76,610);
+    ctx.fillStyle='#f0f5f7';ctx.fillRect(940,223,378,378);
+    qrToCanvas(canvas,958,241,341,getQr());
+    ctx.fillStyle='#476075';ctx.font='22px system-ui,sans-serif';ctx.fillText('Scansiona per recuperare il codice',892,651,455);
+    ctx.fillStyle='#edf3f7';ctx.fillRect(0,736,1400,84);
+    ctx.fillStyle='#52687b';ctx.font='21px system-ui,sans-serif';ctx.fillText('La tessera contiene un collegamento personale: non condividerla.',77,786);
+    return canvas;
+  }
+  function triggerDownload(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);}
+  function pngDownload(){const canvas=drawCard();canvas.toBlob(blob=>{if(blob)triggerDownload(blob,'ResearchKey_'+study+'_'+code+'.png');else say('Non è stato possibile creare il PNG.');},'image/png');}
+  async function copy(text){try{await navigator.clipboard.writeText(text);say('Copiato negli appunti.');}catch(_){say('Copia non disponibile: seleziona e copia manualmente il codice mostrato.');}}
+  function pdfDownload(){
+    // PDF A4 landscape with an image and a clickable URI annotation over its QR.
+    // Generated entirely in the browser (no third-party service or external library).
+    const canvas=drawCard();const data=atob(canvas.toDataURL('image/jpeg',0.95).split(',')[1]);
+    const jpg=new Uint8Array(data.length);for(let i=0;i<data.length;i++)jpg[i]=data.charCodeAt(i);
+    const encoder=new TextEncoder(), pieces=[];let position=0;const offsets=[0];
+    function add(segment){const bytes=typeof segment==='string'?encoder.encode(segment):segment;pieces.push(bytes);position+=bytes.length;}
+    function obj(number,segments){offsets[number]=position;add(number+' 0 obj\n');for(const segment of segments)add(segment);add('\nendobj\n');}
+    add('%PDF-1.4\n%ResearchKey\n');
+    obj(1,['<< /Type /Catalog /Pages 2 0 R >>']);
+    obj(2,['<< /Type /Pages /Kids [3 0 R] /Count 1 >>']);
+    obj(3,['<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R /Annots [6 0 R] >>']);
+    const x=51,y=81,w=740,h=433.43;
+    const commands=`q\n${w} 0 0 ${h} ${x} ${y} cm\n/Im0 Do\nQ\n`;
+    obj(4,[`<< /Length ${encoder.encode(commands).length} >>\nstream\n`,commands,'endstream']);
+    obj(5,[`<< /Type /XObject /Subtype /Image /Width 1400 /Height 820 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`,jpg,'\nendstream']);
+    const minX=x+w*(958/1400),maxX=x+w*((958+341)/1400);
+    const minY=y+h*(1-(241+341)/820),maxY=y+h*(1-241/820);
+    const uri=encodeURI(recoveryLink()).replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)');
+    obj(6,[`<< /Type /Annot /Subtype /Link /Rect [${minX.toFixed(2)} ${minY.toFixed(2)} ${maxX.toFixed(2)} ${maxY.toFixed(2)}] /Border [0 0 0] /A << /S /URI /URI (${uri}) >> >>`]);
+    const startxref=position;add('xref\n0 7\n0000000000 65535 f \n');for(let i=1;i<=6;i++)add(String(offsets[i]).padStart(10,'0')+' 00000 n \n');
+    add(`trailer\n<< /Size 7 /Root 1 0 R >>\nstartxref\n${startxref}\n%%EOF`);
+    const result=new Blob(pieces,{type:'application/pdf'});triggerDownload(result,'ResearchKey_'+study+'_'+code+'.pdf');
+  }
+  $('makeButton').addEventListener('click',newCode);
+  $('copyButton').addEventListener('click',()=>copy(code));$('copyUrlButton').addEventListener('click',()=>copy(recoveryLink()));
+  $('pngButton').addEventListener('click',pngDownload);$('pdfButton').addEventListener('click',pdfDownload);
+  $('restoreButton').addEventListener('click',()=>{const candidate=normalize($('manualCode').value);if(!candidate){say('Inserisci un codice valido di 12 caratteri.');return;} if(code&&code!==candidate){pendingRecovery=candidate;$('conflictArea').classList.remove('hidden');say('Conferma la sostituzione del codice esistente.');return;}assign(candidate);$('manualCode').value='';});
+  $('acceptRecovery').addEventListener('click',()=>{if(pendingRecovery){assign(pendingRecovery);pendingRecovery='';} $('conflictArea').classList.add('hidden');clearHash();});
+  $('rejectRecovery').addEventListener('click',()=>{pendingRecovery='';$('conflictArea').classList.add('hidden');clearHash();say('Codice preesistente mantenuto.');});
+  const local=stored();if(incomingCode){if(local&&local!==incomingCode){code=local;pendingRecovery=incomingCode;$('conflictArea').classList.remove('hidden');render();say('Verifica prima di sostituire il codice.');}else{assign(incomingCode);clearHash();}}else if(local){code=local;render();}
+  if(window.location.protocol==='file:')say('Anteprima locale: il recupero da QR funzionerà dopo la pubblicazione su un indirizzo HTTPS.');
+})();
+</script>
+</body>
+</html>

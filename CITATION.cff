@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+title: "ResearchKey"
+abstract: "Applicazione web statica e client-side per la generazione locale di identificativi pseudonimi per la ricerca scientifica, con isolamento per studio, conservazione nel browser, esportazione di tessere digitali in formato PNG e PDF con QR code di recupero e architettura privacy-by-design senza trasmissione dati al server."
+authors:
+  - family-names: "Bonavolontà"
+    given-names: "Gianmarco"
+version: 1.0.0
+date-released: "2026-10-22"
+license: "MIT"
+keywords:
+  - "pseudonymization"
+  - "research-tools"
+  - "privacy-by-design"
+  - "participant-identifier"
+  - "static-web-application"
+  - "client-side"
+  - "qr-code"
+  - "data-protection"

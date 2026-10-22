@@ -1,5 +1,7 @@
 # ResearchKey
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23555554.svg)](https://doi.org/10.5281/zenodo.23555554)
+
 [Italiano](#italiano) | [English](#english)
 
 ---
@@ -53,16 +55,16 @@ ResearchKey risponde a questa esigenza fornendo:
 
 ### Pubblicazione su GitHub Pages
 
-L'applicazione è progettata per essere distribuita come sito statico tramite GitHub Pages:
+L'applicazione è distribuita come sito statico tramite GitHub Pages:
 
 1. Nel repository GitHub [bonavolonta/research-key](https://github.com/bonavolonta/research-key), accedere a **Settings > Pages**.
 2. Alla voce **Build and deployment > Source**, selezionare **Deploy from a branch**.
 3. Indicare il ramo `main` e la cartella `/ (root)`, quindi salvare.
-4. L'applicazione sarà accessibile all'indirizzo:
+4. L'applicazione è accessibile pubblicamente all'indirizzo:
    ```text
    https://bonavolonta.github.io/research-key/
    ```
-   *(Il file `.nojekyll` già presente nella root garantisce che i file statici e la directory `vendor/` vengano serviti correttamente senza interferenze del compilatore Jekyll).*
+   *(Il file `.nojekyll` presente nella root garantisce che i file statici e la directory `vendor/` vengano serviti correttamente senza interferenze del compilatore Jekyll).*
 
 ### Funzionamento locale e limiti della pseudonimizzazione
 
@@ -83,28 +85,33 @@ L'applicazione è sviluppata in HTML5, CSS3 e JavaScript moderno standard (ECMAS
   - `vendor/LICENSE-qrcode-terminal.txt`
 - **Motore PDF**: generatore proprietario integrato in JavaScript, senza librerie esterne.
 
-### Archiviazione scientifica su Zenodo e attribuzione DOI
+### Archiviazione scientifica su Zenodo e identificativi persistenti DOI
 
-Il software è predisposto per l'archiviazione a lungo termine su [Zenodo](https://zenodo.org/) mediante l'integrazione ufficiale con GitHub Releases.
+Il software è archiviato in modo permanente su [Zenodo](https://zenodo.org/) mediante l'integrazione ufficiale con GitHub Releases, con attribuzione di identificativi persistenti **Digital Object Identifier (DOI)**:
 
-Alla pubblicazione della prima release ufficiale su GitHub, verrà assegnato al software un **Digital Object Identifier (DOI)** persistente rilasciato da Zenodo. I metadati per l'indicizzazione bibliografica sono definiti nel file `CITATION.cff`.
+- **DOI di versione (v1.0.0)**: [`10.5281/zenodo.23555555`](https://doi.org/10.5281/zenodo.23555555) — identifica in modo immutabile e riproducibile la specifica release v1.0.0.
+- **Concept DOI (tutte le versioni)**: [`10.5281/zenodo.23555554`](https://doi.org/10.5281/zenodo.23555554) — identifica l'opera software complessiva e reindirizza sempre all'ultima versione pubblicata.
+- **Record pubblico Zenodo**: [https://zenodo.org/records/23555555](https://zenodo.org/records/23555555)
+- **Applicazione web attiva (GitHub Pages)**: [https://bonavolonta.github.io/research-key/](https://bonavolonta.github.io/research-key/)
+- **Release ufficiale del codice (GitHub Releases)**: [https://github.com/bonavolonta/research-key/releases/tag/v1.0.0](https://github.com/bonavolonta/research-key/releases/tag/v1.0.0)
 
 ### Come citare il software
 
 Se utilizzi ResearchKey nei tuoi progetti di ricerca scientifica o nella raccolta dati, sei invitato a citare il software utilizzando i metadati forniti nel file `CITATION.cff`.
 
 #### Formato testo (APA-like)
-> Bonavolontà, G. (2026). *ResearchKey: Generatore statico client-side di identificativi pseudonimi per la ricerca scientifica* (Versione 1.0.0) [Software]. Disponibile su GitHub e archiviato su Zenodo.
+> Bonavolontà, G. (2026). *ResearchKey: Generatore statico client-side di identificativi pseudonimi per la ricerca scientifica* (Versione 1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23555555
 
 #### Formato BibTeX
 ```bibtex
 @software{Bonavolonta_ResearchKey_2026,
-  author  = {Bonavolont{\`a}, Gianmarco},
-  title   = {{ResearchKey: Generatore statico client-side di identificativi pseudonimi per la ricerca scientifica}},
-  version = {1.0.0},
-  year    = {2026},
-  license = {MIT},
-  url     = {https://github.com/bonavolonta/research-key}
+  author    = {Bonavolont{\`a}, Gianmarco},
+  title     = {{ResearchKey: Generatore statico client-side di identificativi pseudonimi per la ricerca scientifica}},
+  version   = {1.0.0},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23555555},
+  url       = {https://bonavolonta.github.io/research-key/}
 }
 ```
 
@@ -167,12 +174,12 @@ ResearchKey addresses this requirement by providing:
 
 ### Deployment on GitHub Pages
 
-The application is engineered for zero-configuration static hosting on GitHub Pages:
+The application is deployed as a static site on GitHub Pages:
 
 1. In the GitHub repository [bonavolonta/research-key](https://github.com/bonavolonta/research-key), navigate to **Settings > Pages**.
 2. Under **Build and deployment > Source**, select **Deploy from a branch**.
 3. Select the `main` branch and `/ (root)` directory, then click Save.
-4. The application will be published at:
+4. The application is publicly accessible at:
    ```text
    https://bonavolonta.github.io/research-key/
    ```
@@ -197,28 +204,33 @@ ResearchKey is implemented in pure HTML5, CSS3, and standard modern JavaScript (
   - `vendor/LICENSE-qrcode-terminal.txt`
 - **PDF Engine**: Lightweight, custom-built native client-side PDF 1.4 generator with zero external library overhead.
 
-### Scientific Archival on Zenodo and DOI Minting
+### Scientific Archival on Zenodo and Persistent Identifiers (DOIs)
 
-ResearchKey is structured for long-term academic preservation on [Zenodo](https://zenodo.org/) through the official GitHub Releases integration.
+ResearchKey is permanently archived on [Zenodo](https://zenodo.org/) via the official GitHub Releases integration, with registered **Digital Object Identifiers (DOIs)**:
 
-Upon the publication of the initial formal GitHub release, a persistent **Digital Object Identifier (DOI)** will be minted by Zenodo. Bibliographic metadata is formally codified in `CITATION.cff`.
+- **Version-Specific DOI (v1.0.0)**: [`10.5281/zenodo.23555555`](https://doi.org/10.5281/zenodo.23555555) — immutably and reproducibly identifies the specific v1.0.0 release.
+- **Concept DOI (all versions)**: [`10.5281/zenodo.23555554`](https://doi.org/10.5281/zenodo.23555554) — represents the overall software suite and always resolves to the latest release.
+- **Zenodo Public Record**: [https://zenodo.org/records/23555555](https://zenodo.org/records/23555555)
+- **Live Web Application (GitHub Pages)**: [https://bonavolonta.github.io/research-key/](https://bonavolonta.github.io/research-key/)
+- **Source Code Release (GitHub Releases)**: [https://github.com/bonavolonta/research-key/releases/tag/v1.0.0](https://github.com/bonavolonta/research-key/releases/tag/v1.0.0)
 
 ### How to Cite
 
 If you employ ResearchKey in your scientific investigations or data collection procedures, please cite the software using the metadata specified in `CITATION.cff`.
 
 #### Text Format (APA-Style)
-> Bonavolontà, G. (2026). *ResearchKey: Open-source client-side pseudonymous identifier generator for research participants* (Version 1.0.0) [Software]. Available on GitHub and archived on Zenodo.
+> Bonavolontà, G. (2026). *ResearchKey: Open-source client-side pseudonymous identifier generator for research participants* (Version 1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23555555
 
 #### BibTeX Format
 ```bibtex
 @software{Bonavolonta_ResearchKey_2026,
-  author  = {Bonavolont{\`a}, Gianmarco},
-  title   = {{ResearchKey: Open-source client-side pseudonymous identifier generator for research participants}},
-  version = {1.0.0},
-  year    = {2026},
-  license = {MIT},
-  url     = {https://github.com/bonavolonta/research-key}
+  author    = {Bonavolont{\`a}, Gianmarco},
+  title     = {{ResearchKey: Open-source client-side pseudonymous identifier generator for research participants}},
+  version   = {1.0.0},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23555555},
+  url       = {https://bonavolonta.github.io/research-key/}
 }
 ```
 
